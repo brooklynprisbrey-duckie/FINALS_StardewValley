@@ -1,8 +1,4 @@
-#include <iostream>
-#include <sstream>
-#include <fstream>
-#include <string>
-#include <filesystem>
+#include "Season.h"
 
 using namespace std;
 namespace fs = filesystem;
@@ -24,54 +20,6 @@ ifstream openFile() {
     return fSDV;
 }
 
-struct DayData {
-    int day = 0;
-    int dCropsSold = 0;
-    int dCropsRevenue = 0;
-    int dLivestockRevenue = 0;
-    int dExpenses = 0;
-    int dTotalRevenue = 0;
-    int dNetProfit = 0;
-};
-
-class Season {
-    ifstream& file;
-    string seasonName;
-    DayData month[28];
-public:
-    Season(ifstream& ifile, string seas) :file{ ifile }, seasonName{ seas } {
-        cout << "we got here" << endl;
-        for (int i = 0; i < 28; i++) {
-            string insert;
-            getline(file, insert, ',');
-            month[i].day = stoi(insert);
-            getline(file, insert, ',');
-            if (insert != seasonName) {
-                //TODO figure out back cursor
-                return;
-            }
-            getline(file, insert, ',');
-            month[i].dCropsSold = stoi(insert);
-            getline(file, insert, ',');
-            month[i].dCropsRevenue = stoi(insert);
-            getline(file, insert, ',');
-            month[i].dLivestockRevenue = stoi(insert);
-            getline(file, insert, ',');
-            month[i].dExpenses = stoi(insert);
-            getline(file, insert, ',');
-            month[i].dTotalRevenue = stoi(insert);
-            getline(file, insert);
-            month[i].dNetProfit = stoi(insert);
-        }
-        return;
-    }
-
-    void testPrint() {
-        cout << month << endl;
-        return;
-    }
-};
-
 int main(){
     std::cout << "Hello world" << std::endl;
     ifstream dataSet = openFile();
@@ -80,11 +28,15 @@ int main(){
         return 0;
     }
     string headers = "";
-    getline(dataSet, headers, '\n');
+    getline(dataSet, headers, '\n');//TODO figure out better way of moving cursor
 
     Season Spring(dataSet, "Spring");
+    Season Summer(dataSet, "Summer");
 
-    Spring.testPrint();
+    cout << "Data set test: 1,Spring,1,16,3056,225,464,3281,2817" << endl;
+    for (int i = 0; i < 8; i++) {
+        cout << Spring.getter(1, static_cast<DataCode>(i)) << ',';
+    }
 
     dataSet.close();
     return 0;
