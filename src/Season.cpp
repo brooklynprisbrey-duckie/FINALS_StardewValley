@@ -1,30 +1,30 @@
 #include "Season.h"
 
-Season::Season(ifstream& ifile, string seas) :file{ ifile }, seasonName{ seas } {
-        for (int i = 0; i < 28; i++) {
-            string insert;
-            getline(file, insert, ',');
-            month[i].day = stoi(insert);
-            getline(file, insert, ',');
-            if (insert != seasonName) {
-                //TODO figure out back cursor
-                return;
-            }
-            getline(file, insert, ',');
-            month[i].dCropsSold = stoi(insert);
-            getline(file, insert, ',');
-            month[i].dCropsRevenue = stoi(insert);
-            getline(file, insert, ',');
-            month[i].dLivestockRevenue = stoi(insert);
-            getline(file, insert, ',');
-            month[i].dExpenses = stoi(insert);
-            getline(file, insert, ',');
-            month[i].dTotalRevenue = stoi(insert);
-            getline(file, insert);
-            month[i].dNetProfit = stoi(insert);
+void Season::setter(ifstream& file) {
+    for (int i = 0; i < 28; i++) {
+        string insert;
+        getline(file, insert, ',');//clear out year
+        getline(file, insert, ',');
+        if (insert != seasonName) {
+            seasonName = insert;
         }
-        return;
+        getline(file, insert, ',');
+        month[i].day = stoi(insert);
+        getline(file, insert, ',');
+        month[i].dCropsSold = stoi(insert);
+        getline(file, insert, ',');
+        month[i].dCropsRevenue = stoi(insert);
+        getline(file, insert, ',');
+        month[i].dLivestockRevenue = stoi(insert);
+        getline(file, insert, ',');
+        month[i].dExpenses = stoi(insert);
+        getline(file, insert, ',');
+        month[i].dTotalRevenue = stoi(insert);
+        getline(file, insert);
+        month[i].dNetProfit = stoi(insert);
     }
+    return;
+}
 
 int Season::getter(int day, DataCode toGet) {
     day--;

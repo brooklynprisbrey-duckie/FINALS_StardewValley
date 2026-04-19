@@ -1,8 +1,5 @@
 #include "Season.h"
 
-using namespace std;
-namespace fs = filesystem;
-
 ifstream openFile() {
     fs::path pathwayMap = fs::current_path();
     while (pathwayMap.has_parent_path()) {
@@ -27,17 +24,32 @@ int main(){
         cout << "File failed to open." << endl;
         return 0;
     }
-    string headers = "";
-    getline(dataSet, headers, '\n');//TODO figure out better way of moving cursor
 
-    Season Spring(dataSet, "Spring");
-    Season Summer(dataSet, "Summer");
-
-    cout << "Data set test: 1,Spring,1,16,3056,225,464,3281,2817" << endl;
-    for (int i = 0; i < 8; i++) {
-        cout << Spring.getter(1, static_cast<DataCode>(i)) << ',';
+    dataSet.seekg(-3, fstream::end);//moves away from EOF newline
+    while (dataSet.peek() != '\n') {
+        dataSet.seekg(-1, fstream::cur);
     }
+    dataSet.get();//move one forward
+    string yrTtl;
+    getline(dataSet, yrTtl, ',');//get year
 
-    dataSet.close();
+    dataSet.seekg(0, fstream::beg);//back to beginning
+    while (dataSet.peek() != '\n') {//move past headers
+        dataSet.seekg(1, fstream::cur);
+    }
+    dataSet.get();
+
+    int qrtrTtl = stoi(yrTtl) * 4;
+    Season* quarters = new Season[qrtrTtl];
+    for (int i = 0; i < qrtrTtl; i++) {
+        quarters[i].setter(dataSet);
+    }
+    dataSet.close();//info retrieved
+
+    cout << "test line: 2,Winter,28,50,6850,259,328,7109,6781" << endl;
+    cout << quarters[7].getter(28, TTLREV);
+    cout << quarters[7].getter(28, NPROFIT);
+
+    delete[] quarters;
     return 0;
 }

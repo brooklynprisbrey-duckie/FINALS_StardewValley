@@ -5,6 +5,7 @@
 #include <filesystem>
 
 using namespace std;
+namespace fs = filesystem;
 
 #pragma once
 
@@ -29,11 +30,12 @@ struct DayData {
 };
 
 class Season {
-    ifstream& file;
     string seasonName;
     DayData month[28];
 public:
-    Season(ifstream& ifile, string seas);
+    Season() {};
+    
+    void setter(ifstream& ifile);
 
     int getter(int day, DataCode toGet);
 };
