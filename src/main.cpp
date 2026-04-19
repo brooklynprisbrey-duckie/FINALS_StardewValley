@@ -1,4 +1,5 @@
 #include "Season.h"
+#include "Report.h"
 
 ifstream openFile() {
     fs::path pathwayMap = fs::current_path();
@@ -46,9 +47,9 @@ int main(){
     }
     dataSet.close();//info retrieved
 
-    cout << "test line: 2,Winter,28,50,6850,259,328,7109,6781" << endl;
-    cout << quarters[7].getter(28, TTLREV);
-    cout << quarters[7].getter(28, NPROFIT);
+    Report test(&quarters[0]);
+    cout << test.getMax(DAY);
+    cout << test.getMin(DAY);
 
     delete[] quarters;
     return 0;

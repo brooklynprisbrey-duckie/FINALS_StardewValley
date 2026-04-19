@@ -9,7 +9,7 @@ set( APP_EXECUTABLE main )
 
 include_directories( inc )
 
-ADD_EXECUTABLE(main "src/main.cpp" "inc/Season.h" "src/Season.cpp")
+ADD_EXECUTABLE(main "src/main.cpp" "inc/Season.h" "src/Season.cpp" "inc/Report.h" "src/Report.cpp")
 #ADD_EXECUTABLE( ${APP_EXECUTABLE} "src/main2.cpp"  "src/main.cpp" "")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})

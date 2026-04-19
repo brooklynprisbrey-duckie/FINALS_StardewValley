@@ -3,11 +3,10 @@
 void Season::setter(ifstream& file) {
     for (int i = 0; i < 28; i++) {
         string insert;
-        getline(file, insert, ',');//clear out year
         getline(file, insert, ',');
-        if (insert != seasonName) {
-            seasonName = insert;
-        }
+        if (stoi(insert) != year) { year = stoi(insert); }
+        getline(file, insert, ',');
+        if (insert != seasonName) { seasonName = insert; }
         getline(file, insert, ',');
         month[i].day = stoi(insert);
         getline(file, insert, ',');
@@ -27,7 +26,6 @@ void Season::setter(ifstream& file) {
 }
 
 int Season::getter(int day, DataCode toGet) {
-    day--;
     switch (toGet) {
     case DAY:
         return month[day].day;

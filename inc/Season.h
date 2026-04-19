@@ -30,7 +30,8 @@ struct DayData {
 };
 
 class Season {
-    string seasonName;
+    int year = 0;
+    string seasonName = "";
     DayData month[28];
 public:
     Season() {};
@@ -38,4 +39,6 @@ public:
     void setter(ifstream& ifile);
 
     int getter(int day, DataCode toGet);
+
+    friend class Report;
 };
