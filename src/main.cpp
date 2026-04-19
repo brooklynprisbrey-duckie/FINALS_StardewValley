@@ -27,9 +27,9 @@ ifstream openFile() {
 class Season {
     ifstream& file;
     string seasonName;
+    DayData month[28] = {0,0,0,0,0,0,0};
 public:
     Season(ifstream& ifile, string seas) :file{ ifile }, seasonName{ seas } {
-        DayData month[28];
         for (int i = 0; i < 28; i++) {
             string insert;
             getline(file, insert, ',');
@@ -40,15 +40,28 @@ public:
                 return;
             }
             getline(file, insert, ',');
-
+            month[i].dCropsSold = stoi(insert);
+            getline(file, insert, ',');
+            month[i].dCropsRevenue = stoi(insert);
+            getline(file, insert, ',');
+            month[i].dLivestockRevenue = stoi(insert);
+            getline(file, insert, ',');
+            month[i].dExpenses = stoi(insert);
+            getline(file, insert, ',');
+            month[i].dTotalRevenue = stoi(insert);
+            getline(file, insert);
+            month[i].dNetProfit = stoi(insert);
         }
+    }
+    void testPrint() {
+        cout << month << endl;
     }
 };
 
 struct DayData {
     int day = 0;
     int dCropsSold = 0;
-    int dCropRevenue = 0;
+    int dCropsRevenue = 0;
     int dLivestockRevenue = 0;
     int dExpenses = 0;
     int dTotalRevenue = 0;
@@ -62,7 +75,11 @@ int main(){
         cout << "File failed to open." << endl;
         return 0;
     }
+    string headers = "";
+    getline(dataSet, headers, '\n');
 
+    Season Spring(dataSet, "Spring");
+    Spring.testPrint();
 
     dataSet.close();
     return 0;
