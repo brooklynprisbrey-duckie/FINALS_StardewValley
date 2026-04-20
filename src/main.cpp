@@ -47,14 +47,10 @@ int main(){
     }
     dataSet.close();//info retrieved
 
-    Report test(&quarters[7]);
+    Report test1(&quarters[7]);
+    Report test2(&quarters[3]);
     
-    cout << test.getMax(NPROFIT) << endl;
-    test.getFoundDays();
-    cout << test.getMin(NPROFIT) << endl;
-    test.getFoundDays();
-    test.greaterCropLive();
-    test.ratioRevenueCrop();
+    test1.reportComparison(&test2);
 
     delete[] quarters;
     return 0;

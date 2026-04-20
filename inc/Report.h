@@ -18,11 +18,15 @@ public:
 
 	void getFoundDays();
 
-	int greaterCropLive();//
+	int greaterCropLive();
 
 	int ratioRevenueCrop();
 
+	int validate(int min, int max);
 
+	string enumString(DataCode toString);
+
+	void reportComparison(Report* compare);
 	/*Add comparision of two reports.
 	Add reccommendations based on this*/
 };

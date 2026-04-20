@@ -86,3 +86,79 @@ int Report::ratioRevenueCrop() {
 	cout << "For year " << dataPtr->year << ", " << dataPtr->seasonName << ": The crops revenue to quantity ratio was " << ratio << endl;
 	return ratio;
 }
+
+int Report::validate(int min, int max) {
+	cin.clear();
+	int input = 0;
+	bool validating = true;
+	while (validating) {
+		if (cin >> input) {
+			if (min < input || input < max) {
+				return input;
+			}
+		}
+		else if (input > max) {
+			cerr << "Woah! Error be upon you! Too many failed input attempts" << endl;
+			return input;
+		}
+		cout << "Input failed." << endl;
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cin.clear();
+		input++;
+	}
+}
+
+string Report::enumString(DataCode toString) {
+	switch (toString) {
+	case DAY:
+		return "day";
+	case CQUAN:
+		return "crops sold";
+	case CREV:
+		return "crops revenue";
+	case LSREV:
+		return "livestock revenue";
+	case EXP:
+		return "expenses";
+	case TTLREV:
+		return "total revenue";
+	case NPROFIT:
+		return "net profit";
+	}
+}
+
+void Report::reportComparison(Report* compare) {
+	cout << "Comparing year " << dataPtr->year << ", " << dataPtr->seasonName << " to "
+		<< compare->dataPtr->year << ", " << compare->dataPtr->seasonName << endl;
+	cout << "Looking to compare 1. maximum, 2. minimums, 3. sums, or 4. ratios?" << endl;
+	string catEnum = "0. Day, 1. Crops Sold, 2. Crop Revenue, 3. Livestock Revenue, 4. Expenses, 5. Total Revenue, 6. Net Profit";
+	int choice1 = validate(1, 4);
+
+	string recThis = "Emulate year "; recThis.append(to_string(dataPtr->year)); recThis.append(", "); recThis.append(dataPtr->seasonName);
+	string recThat = "Emulate year "; recThat.append(to_string(compare->dataPtr->year)); recThat.append(", "); recThat.append(compare->dataPtr->seasonName);
+	switch (choice1) {
+	case 1: {
+		cout << "Maximum what? " << catEnum << endl;
+		DataCode choice2 = static_cast<DataCode> (validate(0, 6));
+		int max1 = getMax(choice2);
+		int max2 = compare->getMax(choice2);
+		if (choice2 == EXP) {
+			string hold = recThis;
+			recThis = recThat;
+			recThat = hold;
+		}
+		if (max1 > max2) {
+			cout << "Year " << dataPtr->year << ", " << dataPtr->seasonName << " has a higher maximum " << enumString(choice2)
+				<< " then year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << ".\n"
+				<< recThis << endl;
+		}
+		else if (max2 > max1) {
+			cout << "Year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << " has a higher maximum " << enumString(choice2)
+				<< " then year " << dataPtr->year << ", " << dataPtr->seasonName << ".\n"
+				<< recThat << endl;
+		}
+		return;
+	}
+	}
+	return;
+}
