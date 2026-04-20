@@ -47,13 +47,14 @@ int main(){
     }
     dataSet.close();//info retrieved
 
-    Report test(&quarters);
-    /*
+    Report test(&quarters[7]);
+    
     cout << test.getMax(NPROFIT) << endl;
     test.getFoundDays();
     cout << test.getMin(NPROFIT) << endl;
     test.getFoundDays();
-    */
+    test.greaterCropLive();
+    test.ratioRevenueCrop();
 
     delete[] quarters;
     return 0;

@@ -60,3 +60,29 @@ void Report::getFoundDays() {
 	cout << endl;
 	return;
 }
+
+int Report::greaterCropLive() {
+	int cropRev = getSum(CREV);
+	int liveRev = getSum(LSREV);
+	cout << "For year " << dataPtr->year << ", " << dataPtr->seasonName << ": ";
+	if (cropRev > liveRev) {
+		cout << "revenue from crops (" << cropRev << ") was greater than revenue from livestock (" << liveRev << ")" << endl;
+		cout << "Reccomendation: Focus on crops next " << dataPtr->seasonName << "." << endl;
+		return cropRev - liveRev;
+	}
+	else if (liveRev > cropRev) {
+		cout << "revenue from livestock (" << liveRev << ") was greater than revenue from crops (" << cropRev << ")" << endl;
+		cout << "Reccomendation: Focus on livestock next " << dataPtr->seasonName << "." << endl;
+		return liveRev - cropRev;
+	}
+	else {
+		cout << "the revenue from crops (" << cropRev << ") was the same as the revenue from livestock (" << liveRev << ")" << endl;
+		return 0;
+	}
+}
+
+int Report::ratioRevenueCrop() {
+	int ratio = getSum(CREV) / getSum(CQUAN);//ultimately decided against fussing with precision and rounding
+	cout << "For year " << dataPtr->year << ", " << dataPtr->seasonName << ": The crops revenue to quantity ratio was " << ratio << endl;
+	return ratio;
+}

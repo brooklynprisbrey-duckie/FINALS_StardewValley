@@ -18,6 +18,11 @@ public:
 
 	void getFoundDays();
 
-	/*TODO Add comparision of livestock / crop.Add comparision of c - rev / crop ratio Add comparision of two reports.
+	int greaterCropLive();//
+
+	int ratioRevenueCrop();
+
+
+	/*Add comparision of two reports.
 	Add reccommendations based on this*/
 };
