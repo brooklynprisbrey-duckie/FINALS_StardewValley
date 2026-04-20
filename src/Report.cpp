@@ -148,14 +148,85 @@ void Report::reportComparison(Report* compare) {
 			recThat = hold;
 		}
 		if (max1 > max2) {
-			cout << "Year " << dataPtr->year << ", " << dataPtr->seasonName << " has a higher maximum " << enumString(choice2)
+			cout << "Year " << dataPtr->year << ", " << dataPtr->seasonName << " has the higher daily " << enumString(choice2)
 				<< " then year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << ".\n"
 				<< recThis << endl;
 		}
 		else if (max2 > max1) {
-			cout << "Year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << " has a higher maximum " << enumString(choice2)
+			cout << "Year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << " has the higher daily " << enumString(choice2)
 				<< " then year " << dataPtr->year << ", " << dataPtr->seasonName << ".\n"
 				<< recThat << endl;
+		}
+		return;
+	}
+	case 2: {
+		cout << "Minimum what? " << catEnum << endl;
+		DataCode choice2 = static_cast<DataCode> (validate(0, 6));
+		int min1 = getMin(choice2);
+		int min2 = compare->getMin(choice2);
+		if (choice2 == EXP) {
+			string hold = recThis;
+			recThis = recThat;
+			recThat = hold;
+		}
+		if (min1 < min2) {
+			cout << "Year " << dataPtr->year << ", " << dataPtr->seasonName << " has the lower daily " << enumString(choice2)
+				<< " then year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << ".\n"
+				<< recThat << endl;
+		}
+		else if (min2 < min1) {
+			cout << "Year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << " has the lower daily " << enumString(choice2)
+				<< " then year " << dataPtr->year << ", " << dataPtr->seasonName << ".\n"
+				<< recThis << endl;
+		}
+		return;
+	}
+	case 3: {
+		cout << "Sum of what? " << catEnum << endl;
+		DataCode choice2 = static_cast<DataCode>(validate(0, 6));
+		int sum1 = getSum(choice2);
+		int sum2 = compare->getSum(choice2);
+		if (choice2 == EXP) {
+			string hold = recThis;
+			recThis = recThat;
+			recThat = hold;
+		}
+		if (sum1 > sum2) {
+			cout << "Year " << dataPtr->year << ", " << dataPtr->seasonName << " has the highest overall " << enumString(choice2)
+				<< " then year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << ".\n"
+				<< recThis << endl;
+		}
+		else if (sum2 > sum1) {
+			cout << "Year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << " has the highest overall " << enumString(choice2)
+				<< " then year " << dataPtr->year << ", " << dataPtr->seasonName << ".\n"
+				<< recThat << endl;
+		}
+		return;
+	}
+	case 4:{
+		int ratio1 = ratioRevenueCrop();
+		int ratio2 = compare->ratioRevenueCrop();
+		if (ratio1 > ratio2) {
+			cout << "Year " << dataPtr->year << ", " << dataPtr->seasonName << " has the higher ratio than "
+				<< " year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << ".\n";
+			if (dataPtr->seasonName == compare->dataPtr->seasonName) {
+				cout << recThis << endl;
+			}
+			else {
+				cout << "It appears " << dataPtr->seasonName << " is better for growing crops." << endl;
+			}
+			return;
+		}
+		else if (ratio2 > ratio1) {
+			cout << "Year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << " has the higher ratio than "
+				<< " year " << dataPtr->year << ", " << dataPtr->seasonName << ".\n";
+			if (dataPtr->seasonName == compare->dataPtr->seasonName) {
+				cout << recThat << endl;
+			}
+			else {
+				cout << "It appears " << compare->dataPtr->seasonName << " is better for growing crops." << endl;
+			}
+			return;
 		}
 		return;
 	}

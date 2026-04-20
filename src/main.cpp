@@ -47,10 +47,13 @@ int main(){
     }
     dataSet.close();//info retrieved
 
+    int i = 0;
     Report test1(&quarters[7]);
     Report test2(&quarters[3]);
-    
-    test1.reportComparison(&test2);
+    do {
+        test1.reportComparison(&test2);
+        i++;
+    } while (i < 10);
 
     delete[] quarters;
     return 0;
