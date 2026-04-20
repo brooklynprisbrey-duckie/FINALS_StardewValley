@@ -18,8 +18,8 @@ ifstream openFile() {
     return fSDV;
 }
 
-int main(){
-    std::cout << "Hello world" << std::endl;
+int main() {
+    std::cout << "Hello JojoFarmer to your JojoSoftware!" << std::endl;
     ifstream dataSet = openFile();
     if (!dataSet.is_open()) {
         cout << "File failed to open." << endl;
@@ -47,13 +47,42 @@ int main(){
     }
     dataSet.close();//info retrieved
 
-    int i = 0;
-    Report test1(&quarters[7]);
-    Report test2(&quarters[3]);
+    vector<Report> reportFolder;
+    bool reporting = true;
+    cout << qrtrTtl << " quarters have been inputted. Here's your latest quarter!" << endl;
+    reportFolder.push_back(Report(&quarters[qrtrTtl - 1]));
     do {
-        test1.reportComparison(&test2);
-        i++;
-    } while (i < 10);
+        bool makeReports = true;
+        while (makeReports){
+            cout << "What other quarters would you like to make a report on?" << endl;
+            int choice = reportFolder[0].validate(1, qrtrTtl);
+            reportFolder.push_back(Report(&quarters[choice - 1]));
+            cout << "You have " << reportFolder.size() << " reports. Do you want another report? 0. No 1. Yes." << endl;
+            makeReports = reportFolder[0].validate(0, 1);
+        }
+
+        bool studyReports = true;
+        while (studyReports) {
+            cout << "Do you want to 0. Quit 1. examine reports 2. compare?" << endl;
+            int choice1 = reportFolder[0].validate(0, 2);
+            int reportNum = 0;
+            do {
+                cout << "Which report?" << endl;
+                reportNum = reportFolder[0].validate(1, reportFolder.size());
+                cout << "Is the report for year " << reportFolder[reportNum].year <<
+            } while (!reportNum);
+            switch (choice1) {
+            case 1: {
+                cout << "1. Look at specific day, 2. Search days, 3. Pull days from report" << endl;
+                int choice2 = reportFolder[0].validate(1, 3);
+                switch (choice2) {
+                case 1: 
+                }
+            }
+            }
+        }
+
+    } while (reporting);
 
     delete[] quarters;
     return 0;

@@ -3,13 +3,21 @@
 Report::Report(Season* getData) {//only a quarter at a time
 	dataPtr = getData;
 	cout << "Report for year " << dataPtr->year << ", " << dataPtr->seasonName << endl;
-	cout << "Crops sold = " << getSum(CQUAN) << endl;
-	cout << "Crops Revenue = " << getSum(CREV) << endl;
-	cout << "Livestock Revenue = " << getSum(LSREV) << endl;
-	cout << "Total Revenue = " << getSum(TTLREV) << endl;
-	cout << "Expenses = " << getSum(EXP) << endl;
-	cout << "Net Profit = " << getSum(NPROFIT) << endl;
+	getSum(CQUAN);
+	getSum(CREV);
+	getSum(LSREV);
+	getSum(TTLREV);
+	getSum(EXP);
+	getSum(NPROFIT);
 	return;
+}
+
+string Report::getDate() {
+	string date = "Year ";
+	date.append(to_string(dataPtr->year));
+	date.append(", ");
+	date.append(dataPtr->seasonName);
+	return date;
 }
 
 int Report::getMax(DataCode toGet) {
@@ -25,6 +33,7 @@ int Report::getMax(DataCode toGet) {
 			foundDays.push_back(i + 1);
 		}
 	}
+	cout << "For " << getDate() << ": The highest daily " << enumString(toGet) << " was " << max << endl;
 	return max;
 }
 
@@ -41,6 +50,7 @@ int Report::getMin(DataCode toGet) {
 			foundDays.push_back(i + 1);
 		}
 	}
+	cout << "For " << getDate() << ": The lowest daily " << enumString(toGet) << " was " << min << endl;
 	return min;
 }
 
@@ -49,6 +59,7 @@ int Report::getSum(DataCode toGet) {
 	for (int i = 0; i <= (maxR - minR); i++) {
 		sum += dataPtr->getter(i, toGet);
 	}
+	cout << "For " << getDate() << ": The sum of " << enumString(toGet) << " was " << sum << endl;
 	return sum;
 }
 
@@ -64,7 +75,7 @@ void Report::getFoundDays() {
 int Report::greaterCropLive() {
 	int cropRev = getSum(CREV);
 	int liveRev = getSum(LSREV);
-	cout << "For year " << dataPtr->year << ", " << dataPtr->seasonName << ": ";
+	cout << "For " << getDate() << ": ";
 	if (cropRev > liveRev) {
 		cout << "revenue from crops (" << cropRev << ") was greater than revenue from livestock (" << liveRev << ")" << endl;
 		cout << "Reccomendation: Focus on crops next " << dataPtr->seasonName << "." << endl;
@@ -83,7 +94,7 @@ int Report::greaterCropLive() {
 
 int Report::ratioRevenueCrop() {
 	int ratio = getSum(CREV) / getSum(CQUAN);//ultimately decided against fussing with precision and rounding
-	cout << "For year " << dataPtr->year << ", " << dataPtr->seasonName << ": The crops revenue to quantity ratio was " << ratio << endl;
+	cout << "For " << getDate() << ": The crops revenue to quantity ratio was " << ratio << endl;
 	return ratio;
 }
 
@@ -128,14 +139,13 @@ string Report::enumString(DataCode toString) {
 }
 
 void Report::reportComparison(Report* compare) {
-	cout << "Comparing year " << dataPtr->year << ", " << dataPtr->seasonName << " to "
-		<< compare->dataPtr->year << ", " << compare->dataPtr->seasonName << endl;
+	cout << "Comparing " << getDate() << "to " << compare->getDate() << endl;
 	cout << "Looking to compare 1. maximum, 2. minimums, 3. sums, or 4. ratios?" << endl;
 	string catEnum = "0. Day, 1. Crops Sold, 2. Crop Revenue, 3. Livestock Revenue, 4. Expenses, 5. Total Revenue, 6. Net Profit";
 	int choice1 = validate(1, 4);
 
-	string recThis = "Emulate year "; recThis.append(to_string(dataPtr->year)); recThis.append(", "); recThis.append(dataPtr->seasonName);
-	string recThat = "Emulate year "; recThat.append(to_string(compare->dataPtr->year)); recThat.append(", "); recThat.append(compare->dataPtr->seasonName);
+	string recThis = "Emulate " + getDate();
+	string recThat = "Emulate " + compare->getDate();
 	switch (choice1) {
 	case 1: {
 		cout << "Maximum what? " << catEnum << endl;
@@ -148,13 +158,11 @@ void Report::reportComparison(Report* compare) {
 			recThat = hold;
 		}
 		if (max1 > max2) {
-			cout << "Year " << dataPtr->year << ", " << dataPtr->seasonName << " has the higher daily " << enumString(choice2)
-				<< " then year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << ".\n"
+			cout << getDate() << " has the higher daily " << enumString(choice2) << " then " << compare->getDate() << ".\n"
 				<< recThis << endl;
 		}
 		else if (max2 > max1) {
-			cout << "Year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << " has the higher daily " << enumString(choice2)
-				<< " then year " << dataPtr->year << ", " << dataPtr->seasonName << ".\n"
+			cout << compare->getDate() << " has the higher daily " << enumString(choice2) << " then " << getDate() << ".\n"
 				<< recThat << endl;
 		}
 		return;
@@ -170,13 +178,11 @@ void Report::reportComparison(Report* compare) {
 			recThat = hold;
 		}
 		if (min1 < min2) {
-			cout << "Year " << dataPtr->year << ", " << dataPtr->seasonName << " has the lower daily " << enumString(choice2)
-				<< " then year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << ".\n"
+			cout << getDate() << " has the lower daily " << enumString(choice2) << " then " << getDate() << ".\n"
 				<< recThat << endl;
 		}
 		else if (min2 < min1) {
-			cout << "Year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << " has the lower daily " << enumString(choice2)
-				<< " then year " << dataPtr->year << ", " << dataPtr->seasonName << ".\n"
+			cout << compare->getDate() << " has the lower daily " << enumString(choice2) << " then " << getDate() << ".\n"
 				<< recThis << endl;
 		}
 		return;
@@ -192,13 +198,11 @@ void Report::reportComparison(Report* compare) {
 			recThat = hold;
 		}
 		if (sum1 > sum2) {
-			cout << "Year " << dataPtr->year << ", " << dataPtr->seasonName << " has the highest overall " << enumString(choice2)
-				<< " then year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << ".\n"
+			cout << getDate() << " has the highest overall " << enumString(choice2) << " then " << compare->getDate() << ".\n"
 				<< recThis << endl;
 		}
 		else if (sum2 > sum1) {
-			cout << "Year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << " has the highest overall " << enumString(choice2)
-				<< " then year " << dataPtr->year << ", " << dataPtr->seasonName << ".\n"
+			cout << compare->getDate() << " has the highest overall " << enumString(choice2) << " then " << getDate() << ".\n"
 				<< recThat << endl;
 		}
 		return;
@@ -207,8 +211,7 @@ void Report::reportComparison(Report* compare) {
 		int ratio1 = ratioRevenueCrop();
 		int ratio2 = compare->ratioRevenueCrop();
 		if (ratio1 > ratio2) {
-			cout << "Year " << dataPtr->year << ", " << dataPtr->seasonName << " has the higher ratio than "
-				<< " year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << ".\n";
+			cout << getDate() << " has the higher ratio than " << compare->getDate() << ".\n";
 			if (dataPtr->seasonName == compare->dataPtr->seasonName) {
 				cout << recThis << endl;
 			}
@@ -218,8 +221,7 @@ void Report::reportComparison(Report* compare) {
 			return;
 		}
 		else if (ratio2 > ratio1) {
-			cout << "Year " << compare->dataPtr->year << ", " << compare->dataPtr->seasonName << " has the higher ratio than "
-				<< " year " << dataPtr->year << ", " << dataPtr->seasonName << ".\n";
+			cout << compare->getDate() << " has the higher ratio than " << getDate() << ".\n";
 			if (dataPtr->seasonName == compare->dataPtr->seasonName) {
 				cout << recThat << endl;
 			}

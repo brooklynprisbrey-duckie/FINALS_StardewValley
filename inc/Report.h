@@ -10,6 +10,8 @@ class Report : public Season {
 public:
 	Report(Season* getData);
 
+	string getDate();
+
 	int getMax(DataCode toGet);
 
 	int getMin(DataCode toGet);
