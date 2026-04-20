@@ -1,12 +1,5 @@
 #include "Report.h"
 
-Report::Report(Season* getData[]) {//whole amount passed in for extraction
-	string minDay;
-	string maxDay;
-	cout << "Please enter the " << endl;
-	return;
-}
-
 Report::Report(Season* getData) {//only a quarter at a time
 	dataPtr = getData;
 	cout << "Report for year " << dataPtr->year << ", " << dataPtr->seasonName << endl;
@@ -21,6 +14,7 @@ Report::Report(Season* getData) {//only a quarter at a time
 
 int Report::getMax(DataCode toGet) {
 	int max = 0;
+	foundDays.clear();
 	for (int i = 0; i <= (maxR - minR); i++) {
 		if (dataPtr->getter(i, toGet) > max) {
 			max = dataPtr->getter(i, toGet);
@@ -36,6 +30,7 @@ int Report::getMax(DataCode toGet) {
 
 int Report::getMin(DataCode toGet) {
 	int min = 10000;
+	foundDays.clear();
 	for (int i = 0; i <= (maxR - minR); i++) {
 		if (dataPtr->getter(i, toGet) < min) {
 			min = dataPtr->getter(i, toGet);
@@ -55,4 +50,13 @@ int Report::getSum(DataCode toGet) {
 		sum += dataPtr->getter(i, toGet);
 	}
 	return sum;
+}
+
+void Report::getFoundDays() {
+	cout << "Days pulled on last report";
+	for (int i : foundDays) {
+		cout << ", " << i;
+	}
+	cout << endl;
+	return;
 }

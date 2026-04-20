@@ -47,9 +47,13 @@ int main(){
     }
     dataSet.close();//info retrieved
 
-    Report test(&quarters[0]);
-    cout << test.getMax(DAY);
-    cout << test.getMin(DAY);
+    Report test(&quarters);
+    /*
+    cout << test.getMax(NPROFIT) << endl;
+    test.getFoundDays();
+    cout << test.getMin(NPROFIT) << endl;
+    test.getFoundDays();
+    */
 
     delete[] quarters;
     return 0;

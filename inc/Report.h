@@ -8,8 +8,6 @@ class Report : public Season {
 	Season* dataPtr;
 	vector<int> foundDays;
 public:
-	Report(Season* getData[]);
-
 	Report(Season* getData);
 
 	int getMax(DataCode toGet);
@@ -17,6 +15,8 @@ public:
 	int getMin(DataCode toGet);
 
 	int getSum(DataCode toGet);
+
+	void getFoundDays();
 
 	/*TODO Add comparision of livestock / crop.Add comparision of c - rev / crop ratio Add comparision of two reports.
 	Add reccommendations based on this*/
